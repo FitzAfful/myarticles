@@ -24,6 +24,24 @@ module Api
                 end
             end
 
+            def destroy
+                article = Article.find(params[:id])
+                article.destroy
+                render json: {status: 'success', message: 'article deleted successfully'}, status: :ok
+            end
+
+            def update
+                article = Article.find(params[:id])
+
+                if article.update_attributes(article_params)
+                    puts "A string".inspect
+                    render json: {status: 'success', message: 'article updated successfully', data: article}, status: :ok
+                else 
+                    puts "Error string".inspect
+                    render json: {status: 'error', message: 'article not updated', data: article.errors}, status: :unprocessable_entity
+                end
+            end
+
             private
 
             def article_params
